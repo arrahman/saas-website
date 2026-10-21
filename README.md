@@ -34,7 +34,11 @@ tailwind.config.js     ← color, font and width tokens
 
 ## Deploy
 
-A GitHub Actions workflow (`.github/workflows/deploy.yml`) publishes to GitHub Pages on every push to `main`.
-Enable it once under **Settings → Pages → Source: GitHub Actions**.
+A ready-made GitHub Actions workflow is in `deploy/github-pages.yml`. To enable it:
+
+1. On GitHub, open `deploy/github-pages.yml`, click the pencil (Edit), and rename the path to `.github/workflows/deploy.yml`. Commit.
+2. Go to **Settings → Pages → Source: GitHub Actions**.
+
+Every push to `main` then publishes the site to `https://<user>.github.io/<repo>/`.
 
 Also works as-is on Vercel or Netlify (build command `npm run build`, output `dist`).
