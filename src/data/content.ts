@@ -2,12 +2,14 @@
 // Replace the [PLACEHOLDER] values and sample prices before launch.
 
 export const brand = {
-  name: 'Voxa',
-  salesEmail: 'sales@voxa.ai',
-  supportEmail: 'support@voxa.ai',
+  name: 'Knowex AI',
+  domain: 'knowex.ai',
+  tagline: 'The Knowledge Exchange Company',
+  salesEmail: 'sales@knowex.ai',
+  supportEmail: 'support@knowex.ai',
   address: '[YOUR OFFICE ADDRESS]',
   widgetSnippet: {
-    src: 'https://cdn.voxa.ai/widget.js',
+    src: 'https://cdn.knowex.ai/widget.js',
     agentId: 'agt_your_agent_id',
   },
 };
@@ -68,7 +70,7 @@ export const products: {
     kicker: 'The brain behind every agent',
     headline: 'One source of truth, always up to date.',
     description:
-      'Upload files or connect your site, help center and drives. Voxa keeps everything synced, so your agents never quote an outdated price or policy.',
+      'Upload files or connect your site, help center and drives. Knowex keeps everything synced, so your agents never quote an outdated price or policy.',
     bullets: [
       'PDFs, docs, spreadsheets, web pages and FAQs',
       'Auto-sync from Google Drive, Notion and Confluence',
@@ -87,7 +89,7 @@ export const knowledgeSources = [
 ];
 
 export const steps = [
-  { n: '01', title: 'Connect your knowledge', body: 'Upload documents or point Voxa at your website, help center and drives. We index everything in minutes.' },
+  { n: '01', title: 'Connect your knowledge', body: 'Upload documents or point Knowex at your website, help center and drives. We index everything in minutes.' },
   { n: '02', title: 'Shape your agent', body: 'Set the tone, goals and guardrails, choose a voice, and decide when a human should step in. Test it in the playground.' },
   { n: '03', title: 'Deploy anywhere', body: 'Go live on your site, app, messaging channels and phone line. Track every conversation from one dashboard.' },
 ];
@@ -156,7 +158,7 @@ export const plans: Plan[] = [
 ];
 
 export const faqs = [
-  { q: 'Can I integrate Voxa with my existing platform?', a: 'Yes. Paste one script tag into any website builder, or use our plugins for WordPress, Shopify and Wix, our SDKs for iOS, Android and React, or the REST API and webhooks for anything else.' },
+  { q: 'Can I integrate Knowex AI with my existing platform?', a: 'Yes. Paste one script tag into any website builder, or use our plugins for WordPress, Shopify and Wix, our SDKs for iOS, Android and React, or the REST API and webhooks for anything else.' },
   { q: 'How does the voice agent connect to my phone line?', a: 'Get a new local or toll-free number from us, forward your existing number, or connect your own telephony via SIP. Calls can be transferred to your team at any time.' },
   { q: 'Will the AI make things up?', a: 'Agents answer only from your knowledge base and cite their sources. When an answer isn’t covered, they say so and offer a handoff instead of guessing.' },
   { q: 'Where is my data stored?', a: 'Your data is encrypted in transit and at rest and is never used to train shared models. Enterprise plans can choose the region where data is stored.' },

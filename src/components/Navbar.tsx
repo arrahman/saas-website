@@ -16,7 +16,7 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-40 border-b border-paper-400 bg-paper/90 backdrop-blur-md">
       <div className="container-site flex h-[72px] items-center justify-between gap-6">
-        <a href="#top" aria-label="Voxa home"><Logo /></a>
+        <a href="#top" aria-label="Knowex AI home"><Logo /></a>
 
         <nav aria-label="Primary" className="hidden items-center gap-8 text-[15px] font-medium md:flex">
           {navLinks.map((l) => (

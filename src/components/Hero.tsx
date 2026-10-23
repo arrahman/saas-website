@@ -1,3 +1,4 @@
+import { brand } from '../data/content';
 import { ArrowRight, Check, FileText, Phone, Send } from 'lucide-react';
 
 const wave = [8, 14, 20, 12, 24, 16, 10, 22, 18, 9, 15, 24, 13, 7, 19, 23, 11, 17, 21, 9, 14, 24, 12, 18, 8, 16, 20, 10];
@@ -8,7 +9,7 @@ export default function Hero() {
       <div className="flex flex-wrap items-center gap-14">
         <div className="flex min-w-0 flex-[1_1_460px] flex-col gap-7">
           <span className="eyebrow self-start rounded-full border border-paper-500 bg-white px-3 py-1.5 text-ink-700">
-            Chat · Voice · Knowledge — one platform
+            {brand.tagline}
           </span>
           <h1 className="font-display text-[44px] font-semibold leading-[48px] tracking-[-0.035em] md:text-[68px] md:leading-[70px]">
             AI agents that talk to your customers <span className="text-brand">the way you would.</span>
@@ -33,7 +34,7 @@ export default function Hero() {
         </div>
 
         {/* Product mock */}
-        <div className="relative flex min-w-0 flex-[1_1_440px] flex-col gap-4" aria-label="Example of a Voxa chat and voice agent">
+        <div className="relative flex min-w-0 flex-[1_1_440px] flex-col gap-4" aria-label="Example of a Knowex AI chat and voice agent">
           <div className="overflow-hidden rounded-[20px] border border-paper-400 bg-white shadow-[0_30px_60px_-30px_rgba(14,17,22,0.25)]">
             <div className="flex items-center gap-3 bg-ink px-5 py-4 text-white">
               <span className="flex h-9 w-9 items-center justify-center rounded-full bg-brand font-display font-bold">M</span>

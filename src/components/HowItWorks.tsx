@@ -27,7 +27,7 @@ export default function HowItWorks() {
           <div className="min-w-0 flex-[1_1_520px] overflow-x-auto rounded-2xl border border-ink-700 bg-ink-800 px-6 py-5">
             <pre className="font-mono text-sm leading-6 text-[#E4E7EC]">
               <code>
-                <span className="text-[#8A93A3]">{'<!-- Voxa widget -->'}</span>{'\n'}
+                <span className="text-[#8A93A3]">{'<!-- Knowex AI widget -->'}</span>{'\n'}
                 {`<script src="${brand.widgetSnippet.src}"\n  data-agent="`}
                 <span className="text-brand-light">{brand.widgetSnippet.agentId}</span>
                 {`"\n  data-voice="true" async></script>`}

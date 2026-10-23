@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-// BASE_PATH is set by the GitHub Pages workflow (e.g. /voxa-website/).
+// BASE_PATH is set by the GitHub Pages workflow (e.g. /saas-website/).
 // Locally and on custom domains it defaults to '/'.
 export default defineConfig({
   plugins: [react()],

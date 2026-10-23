@@ -1,6 +1,8 @@
-# Voxa — marketing website
+# Knowex AI — marketing website
 
-Single-page marketing site for Voxa: AI chat agents, voice agents and a shared knowledge base, sold on subscription.
+*The Knowledge Exchange Company* · [knowex.ai](https://knowex.ai)
+
+Single-page marketing site for Knowex AI: AI chat agents, voice agents and a shared knowledge base, sold on subscription.
 
 Built with **Vite + React + TypeScript + Tailwind CSS**.
 
