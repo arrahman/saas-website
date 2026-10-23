@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Check, HelpCircle, Mail, MapPin } from 'lucide-react';
 import { brand } from '../data/content';
+import Turnstile from './Turnstile';
 
 const interestOptions = [
   { id: 'chat', label: 'Chat Agent' },
@@ -10,14 +11,23 @@ const interestOptions = [
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
 
-// Set VITE_CONTACT_ENDPOINT in .env to a form backend (e.g. Formspree, Basin, or your own API).
-// Without it the form shows the success state locally so the UI can be reviewed.
-const ENDPOINT = import.meta.env.VITE_CONTACT_ENDPOINT as string | undefined;
+// The demo-request Worker (forms.knowex.ai) and the Turnstile site key, set in .env.production.
+// In local dev without an endpoint, the form shows the success state so the UI can be reviewed.
+const ENDPOINT = import.meta.env.VITE_DEMO_ENDPOINT as string | undefined;
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
 
 export default function Contact() {
   const [interests, setInterests] = useState<string[]>(['chat']);
   const [status, setStatus] = useState<Status>('idle');
   const [error, setError] = useState('');
+  const [token, setToken] = useState('');
+  const [widgetKey, setWidgetKey] = useState(0);
+
+  // Turnstile tokens are single-use: remount the widget to get a fresh one.
+  const resetCheck = () => {
+    setToken('');
+    setWidgetKey((k) => k + 1);
+  };
 
   const toggle = (id: string) =>
     setInterests((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
@@ -29,13 +39,33 @@ export default function Contact() {
       form.reportValidity();
       return;
     }
-    const data = Object.fromEntries(new FormData(form).entries());
-    const payload = { ...data, interests };
+    const data = new FormData(form);
 
     if (!ENDPOINT) {
-      setStatus('sent');
+      if (import.meta.env.DEV) setStatus('sent');
+      else {
+        setStatus('error');
+        setError(`The form isn’t connected yet. Email us at ${brand.salesEmail}.`);
+      }
       return;
     }
+    if (TURNSTILE_SITE_KEY && !token) {
+      setStatus('error');
+      setError('Wait for the verification check above the button to finish, then try again.');
+      return;
+    }
+
+    const payload = {
+      name: data.get('name'),
+      email: data.get('email'),
+      company: data.get('company'),
+      teamSize: data.get('teamSize'),
+      message: data.get('message'),
+      interests: interestOptions.filter((o) => interests.includes(o.id)).map((o) => o.label),
+      marketingOptIn: data.get('marketingOptIn') === 'on',
+      turnstileToken: token,
+    };
+
     try {
       setStatus('sending');
       setError('');
@@ -44,12 +74,22 @@ export default function Contact() {
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify(payload),
       });
-      if (!res.ok) throw new Error(`Request failed (${res.status})`);
+      const result = (await res.json().catch(() => ({}))) as { ok?: boolean; error?: string };
+      if (!res.ok || !result.ok) {
+        throw new Error(result.error || `Your request wasn’t sent. Email us at ${brand.salesEmail}.`);
+      }
       setStatus('sent');
       form.reset();
-    } catch {
+      setInterests(['chat']);
+    } catch (err) {
       setStatus('error');
-      setError('Your request wasn’t sent. Check your connection and try again, or email us directly.');
+      setError(
+        err instanceof Error && err.message !== 'Failed to fetch'
+          ? err.message
+          : `Your request wasn’t sent. Check your connection and try again, or email ${brand.salesEmail}.`,
+      );
+    } finally {
+      resetCheck();
     }
   }
 
@@ -98,17 +138,17 @@ export default function Contact() {
               <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="name" className="text-sm font-semibold">Full name</label>
-                  <input id="name" name="name" required autoComplete="name" placeholder="Jane Cooper" className="field" />
+                  <input id="name" name="name" required maxLength={120} autoComplete="name" placeholder="Jane Cooper" className="field" />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="email" className="text-sm font-semibold">Work email</label>
-                  <input id="email" name="email" type="email" required autoComplete="email" placeholder="jane@company.com" className="field" />
+                  <input id="email" name="email" type="email" required maxLength={254} autoComplete="email" placeholder="jane@company.com" className="field" />
                 </div>
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="company" className="text-sm font-semibold">Company</label>
-                  <input id="company" name="company" autoComplete="organization" placeholder="Acme Inc." className="field" />
+                  <input id="company" name="company" maxLength={160} autoComplete="organization" placeholder="Acme Inc." className="field" />
                 </div>
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="size" className="text-sm font-semibold">Team size</label>
@@ -138,11 +178,27 @@ export default function Contact() {
               </fieldset>
               <div className="flex flex-col gap-1.5">
                 <label htmlFor="message" className="text-sm font-semibold">What should your agent do?</label>
-                <textarea id="message" name="message" rows={4} placeholder="e.g. Answer product questions on our Shopify store and book installation calls." className="field resize-y" />
+                <textarea id="message" name="message" rows={4} maxLength={4000} placeholder="e.g. Answer product questions on our Shopify store and book installation calls." className="field resize-y" />
               </div>
+              {/* Unchecked by default: CASL needs express consent before sending marketing email. */}
+              <label className="flex items-start gap-2.5 text-sm text-ink-600">
+                <input type="checkbox" name="marketingOptIn" className="mt-0.5 h-4 w-4 accent-brand" />
+                <span>Send me occasional product updates from Knowex AI. Unsubscribe anytime.</span>
+              </label>
+              {TURNSTILE_SITE_KEY && (
+                <Turnstile
+                  key={widgetKey}
+                  siteKey={TURNSTILE_SITE_KEY}
+                  onToken={setToken}
+                  onLoadError={() => {
+                    setStatus('error');
+                    setError('The verification check didn’t load. Refresh the page to try again.');
+                  }}
+                />
+              )}
               {status === 'error' && <p role="alert" className="text-sm font-medium text-red-700">{error}</p>}
               <button type="submit" disabled={status === 'sending'} className="btn-primary min-h-[52px] disabled:opacity-60">
-                {status === 'sending' ? 'Sending…' : 'Request a demo'}
+                {status === 'sending' ? 'Requesting demo…' : 'Request a demo'}
               </button>
               <span className="text-[13px] text-ink-500">
                 By submitting you agree to our <a href="#" className="text-brand-dark underline">privacy policy</a>. We never share your data.
