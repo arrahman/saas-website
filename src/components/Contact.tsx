@@ -59,6 +59,7 @@ export default function Contact() {
       name: data.get('name'),
       email: data.get('email'),
       company: data.get('company'),
+      phone: data.get('phone'),
       teamSize: data.get('teamSize'),
       message: data.get('message'),
       interests: interestOptions.filter((o) => interests.includes(o.id)).map((o) => o.label),
@@ -147,9 +148,17 @@ export default function Contact() {
               </div>
               <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
                 <div className="flex flex-col gap-1.5">
+                  <label htmlFor="phone" className="text-sm font-semibold">
+                    Phone <span className="font-normal text-ink-500">(optional)</span>
+                  </label>
+                  <input id="phone" name="phone" type="tel" maxLength={30} autoComplete="tel" placeholder="+1 416 555 0123" className="field" />
+                </div>
+                <div className="flex flex-col gap-1.5">
                   <label htmlFor="company" className="text-sm font-semibold">Company</label>
                   <input id="company" name="company" maxLength={160} autoComplete="organization" placeholder="Acme Inc." className="field" />
                 </div>
+              </div>
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(180px,1fr))] gap-4">
                 <div className="flex flex-col gap-1.5">
                   <label htmlFor="size" className="text-sm font-semibold">Team size</label>
                   <select id="size" name="teamSize" className="field min-h-12">
