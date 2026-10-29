@@ -6,8 +6,8 @@ const wave = [8, 14, 20, 12, 24, 16, 10, 22, 18, 9, 15, 24, 13, 7, 19, 23, 11, 1
 
 export default function Hero() {
   return (
-    <section id="top" className="container-site py-16 md:pb-[72px] md:pt-[88px]">
-      <div className="flex flex-wrap items-center gap-14">
+    <section id="top" className="container-site py-12 md:pb-16 md:pt-12">
+      <div className="flex flex-wrap items-start gap-14">
         <div className="flex min-w-0 flex-[1_1_460px] flex-col gap-7">
           <span className="eyebrow self-start rounded-full border border-paper-500 bg-white px-3 py-1.5 text-ink-700">
             {brand.tagline}

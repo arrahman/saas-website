@@ -189,7 +189,7 @@ export default function ChatDemo() {
       </div>
 
       {/* Conversation */}
-      <div ref={bodyRef} aria-hidden="true" className="flex h-[400px] flex-col gap-3 overflow-y-auto bg-[#FAFAF8] p-5 [scrollbar-width:none] [&>*]:shrink-0">
+      <div ref={bodyRef} aria-hidden="true" className="flex h-[clamp(240px,calc(100svh-400px),400px)] flex-col gap-3 overflow-y-auto bg-[#FAFAF8] px-5 py-4 [scrollbar-width:none] [&>*]:shrink-0">
         <div className="mt-auto" />
         {messages.map((m) => {
           if (m.kind === 'user')
