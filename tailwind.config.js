@@ -15,6 +15,16 @@ export default {
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       maxWidth: { site: '1240px' },
+      keyframes: {
+        'msg-in': { '0%': { opacity: '0', transform: 'translateY(8px) scale(0.98)' }, '100%': { opacity: '1', transform: 'none' } },
+        'typing-dot': { '0%, 60%, 100%': { transform: 'translateY(0)', opacity: '0.4' }, '30%': { transform: 'translateY(-4px)', opacity: '1' } },
+        'pop': { '0%': { transform: 'scale(1)' }, '40%': { transform: 'scale(0.94)' }, '100%': { transform: 'scale(1)' } },
+      },
+      animation: {
+        'msg-in': 'msg-in 320ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+        'typing-dot': 'typing-dot 1.1s ease-in-out infinite',
+        'pop': 'pop 260ms ease-out',
+      },
     },
   },
   plugins: [],

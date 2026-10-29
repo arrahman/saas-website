@@ -21,4 +21,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .animate-msg-in, .animate-typing-dot, .animate-pop { animation: none !important; }
 }
